@@ -1,0 +1,24 @@
+body {
+    margin: auto;
+    max-width: 1280px;
+    background-color: rgb(96, 141, 7);
+}
+.container {
+    max-width: 640px;
+    margin: auto;
+    background-color: white;
+    text-align: center;
+}
+.wish-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 0;
+    margin: 0;
+}
+.wish-list-items {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
