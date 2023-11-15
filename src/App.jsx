@@ -11,7 +11,6 @@ completed: false, //boolean
 
 const [newWishItem, setWishItem] = useState("")
 
-  
 const addWishItem = (task) => {
   const newWishListItem = [
     ...todo,

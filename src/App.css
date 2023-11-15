@@ -4,7 +4,7 @@ body {
     background-color: rgb(96, 141, 7);
 }
 .container {
-    max-width: 640px;
+    max-width: 600px;
     margin: auto;
     background-color: white;
     text-align: center;
