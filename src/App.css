@@ -1,24 +1,31 @@
 body {
-    margin: auto;
     max-width: 1280px;
-    background-color: rgb(96, 141, 7);
+    background-color: rgb(81, 124, 16);
+    margin: auto;
 }
+
 .container {
     max-width: 600px;
     margin: auto;
     background-color: white;
     text-align: center;
 }
-.wish-list {
+
+.todo-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: .5rem;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    gap: .5rem;
 }
-.wish-list-items {
+
+.todo-item {
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.done {
+background-color: yellow;
 }
