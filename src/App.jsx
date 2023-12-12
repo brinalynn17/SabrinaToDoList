@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import { collection, getDocs,  } from "firebase/firestore";
+import { db } from "./firebase";
 
 function App() {
   const [todos, setTodos] = useState([
@@ -25,6 +27,20 @@ function App() {
     const newTodoList = todos.filter((item) => item.id != id);
     setTodos(newTodoList);
   };
+
+  useEffect(() =>{
+    const todoReference = collection(db, "todo");
+
+    const getData = async() => {
+      const data = await getDocs(todoReference);
+      const todo =data.docs.map((doc) => ({
+        id:doc.id,
+        ...doc.data(),
+      }));
+      setTodos(todo);
+    };
+    getData()
+  },[]);
 
   const changeTodoState = (id, state) => {
     const newTodoList = todos.map((item) => {
