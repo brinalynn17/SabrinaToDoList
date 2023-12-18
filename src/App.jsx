@@ -1,31 +1,37 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { collection, getDocs,  } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs,  } from "firebase/firestore";
 import { db } from "./firebase";
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1, //Key
-      task: "", //string
-      done: false, //boolean
-    },
-  ]);
-  const [newToDo, setNewTodo] = useState("");
+  const [todo, setTodo] = useState([]);
+  const [newTodoText, setNewTodoText] = useState("");
 
-  const addTodo = (task) => {
-    if (!task) return;
-    const newTodoList = [
-      ...todos,
-      { id: todos.length + 1, task: task, done: false },
-    ];
-
-    setTodos(newTodoList);
+  const updateToDoState = (id, state) => {
   };
+  
+  const updateToDoText = (id, task) => {
+    };
+  
+  const addTodo = async(task) => {
+    if (!task) return;
+    const taskReference = collection(db, "todo");
+    await addDoc(taskReference, {
+      task:task,
+      done: false,
+     }).then((docRef) => {
+      const newTodo = [
+        ...todo,
+      { id: docRef.id, task: task, done: false },
+    ];
+    setTodo(newTodo);
+  });
+  }
 
-  const delteTodo = (id) => {
-    const newTodoList = todos.filter((item) => item.id != id);
-    setTodos(newTodoList);
+  const delteTodo = async(id) => {
+    await deleteDoc(doc(db, "todo", id))
+    const newToDo = todo.filter((item) => item.id !== id);
+    setTodo(newToDo);
   };
 
   useEffect(() =>{
@@ -37,13 +43,13 @@ function App() {
         id:doc.id,
         ...doc.data(),
       }));
-      setTodos(todo);
+      setTodo(todo);
     };
     getData()
   },[]);
 
   const changeTodoState = (id, state) => {
-    const newTodoList = todos.map((item) => {
+    const newToDo = todo.map((item) => {
       if (item.id === id) {
         return { ...item, done: state };
       } else {
@@ -51,7 +57,7 @@ function App() {
       }
     });
 
-    setTodos(newTodoList);
+    setTodo(newToDo);
   };
 
   return (
@@ -60,25 +66,25 @@ function App() {
 
       <form className="new-todo-container" onSubmit={(e) => e.preventDefault()}>
         <input
-          value={newToDo}
-          onChange={(event) => setNewTodo(event.target.value)}
+          value={newTodoText}
+          onChange={(event) => setNewTodoText(event.target.value)}
         />
         <button
           onClick={() => {
-            addTodo(newToDo);
-            setNewTodo("");
+            addTodo(newTodoText);
+            setNewTodoText("");
           }}
         >
           ➕
         </button>
       </form>
 
-      {todos.length === 0 ? (
+      {todo.length === 0 ? (
       <p>No tasks, add a task</p>
     ) : (
 
       <ul className="todo-list">
-        {todos.map((item) => {
+        {todo.map((item) => {
           return (
             <li key={item.id} className="todo-item">
               <input
